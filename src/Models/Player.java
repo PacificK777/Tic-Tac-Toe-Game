@@ -1,9 +1,12 @@
 package Models;
 
+import java.util.Scanner;
+
 public class Player {
     private String name;
     private Symbol symbol;
     private PlayerType playerType;
+    private static Scanner scanner = new Scanner(System.in);
 
     public Player(String name, Symbol symbol, PlayerType playerType){
         this.name = name;
@@ -33,5 +36,16 @@ public class Player {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Move makeMove(){
+        System.out.println("Please enter the row index where you want to make the move");
+        int row = scanner.nextInt();
+
+        System.out.println("Please enter the column index where you want to make the move");
+        int col = scanner.nextInt();
+
+        return new Move(this,new Cell(row,col));
+
     }
 }

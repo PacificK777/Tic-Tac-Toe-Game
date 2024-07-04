@@ -1,6 +1,7 @@
 package Models;
 
 import Exceptions.InvalidBotCountException;
+import Exceptions.InvalidMoveException;
 import Exceptions.InvalidPlayerCountException;
 import Exceptions.InvalidPlayerSymbolException;
 import Strategy.WinningStategies.WinningStrategy;
@@ -25,6 +26,59 @@ public class Game {
 
     public void printBoard(){
         board.print();
+    }
+
+    public boolean validateMove(Move move){
+        Player player = move.getPlayer();
+        Cell cell = move.getCell();
+        int row = cell.getRow();
+        int col = cell.getCol();
+
+        if(row<0 || row>=board.getDimension() || col<0 || col>= board.getDimension() ||
+            cell.getCellState().equals(CellState.EMPTY)){
+            return false;
+        }
+        return true;
+    }
+
+    public void makeWinner() throws InvalidMoveException {
+
+        Player currentPlayer = players.get(nextPlayerMoveIndex);
+        System.out.println("It's "+currentPlayer.getName()+"'s move");
+
+        //Ask the user where they want to make the move
+        Move move = currentPlayer.makeMove();
+
+        //Before making the move, validate if the cell is empty or not
+        if(! validateMove(move)){
+            throw new InvalidMoveException("Invalid move, please try again !!");
+        }
+        // If valid move, we can execute on the board
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+
+        Cell cell = board.getBoard().get(row).get(col);
+        cell.setCellState(CellState.FILLED);
+        cell.setPlayer(currentPlayer);
+
+        Move finalMove = new Move(currentPlayer, cell);
+        moves.add(finalMove);
+
+        nextPlayerMoveIndex = (nextPlayerMoveIndex+1) % players.size();
+        if(checkWinner(finalMove)){
+            winner = currentPlayer;
+            gameState = GameState.ENDED;
+        } else if (moves.size() == board.getDimension() * board.getDimension()) {
+            // Game has drawn
+            gameState= GameState.DRAW;
+        }
+    }
+
+    private boolean checkWinner(Move move){
+        // check the row, column and diagonal (if applicable)
+        for(WinningStrategy winningStrategy : winningStrategies){
+            if(winningStrategy.checkWinner(board, move));
+        }
     }
 
     private Game(int dimension, List<Player> players, List<WinningStrategy> winningStrategies){
