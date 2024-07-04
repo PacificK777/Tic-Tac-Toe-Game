@@ -35,13 +35,13 @@ public class Game {
         int col = cell.getCol();
 
         if(row<0 || row>=board.getDimension() || col<0 || col>= board.getDimension() ||
-            cell.getCellState().equals(CellState.EMPTY)){
+            !board.getBoard().get(row).get(col).getCellState().equals(CellState.EMPTY)){
             return false;
         }
         return true;
     }
 
-    public void makeWinner() throws InvalidMoveException {
+    public void makeMove() throws InvalidMoveException {
 
         Player currentPlayer = players.get(nextPlayerMoveIndex);
         System.out.println("It's "+currentPlayer.getName()+"'s move");
@@ -77,8 +77,11 @@ public class Game {
     private boolean checkWinner(Move move){
         // check the row, column and diagonal (if applicable)
         for(WinningStrategy winningStrategy : winningStrategies){
-            if(winningStrategy.checkWinner(board, move));
+            if(winningStrategy.checkWinner(board, move)){
+                return true;
+            }
         }
+        return false;
     }
 
     private Game(int dimension, List<Player> players, List<WinningStrategy> winningStrategies){

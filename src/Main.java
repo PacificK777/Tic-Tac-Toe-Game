@@ -1,5 +1,6 @@
 import Controllers.GameController;
 import Exceptions.InvalidBotCountException;
+import Exceptions.InvalidMoveException;
 import Exceptions.InvalidPlayerCountException;
 import Exceptions.InvalidPlayerSymbolException;
 import Models.*;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws InvalidBotCountException, InvalidPlayerCountException, InvalidPlayerSymbolException {
+    public static void main(String[] args) throws InvalidBotCountException, InvalidPlayerCountException, InvalidPlayerSymbolException, InvalidMoveException {
         int dimension = 3;
         List<Player> players = new ArrayList<>();
         players.add(new Player("Mayank", new Symbol('X'), PlayerType.HUMAN));
@@ -34,5 +35,7 @@ public class Main {
             gameController.printBoard(game);
             gameController.makeMove(game);
         }
+
+            gameController.handleGameEnd(game);
     }
 }

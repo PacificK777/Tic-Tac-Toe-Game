@@ -1,6 +1,7 @@
 package Controllers;
 
 import Exceptions.InvalidBotCountException;
+import Exceptions.InvalidMoveException;
 import Exceptions.InvalidPlayerCountException;
 import Exceptions.InvalidPlayerSymbolException;
 import Models.Game;
@@ -20,10 +21,18 @@ public class GameController {
                 .build();
     }
 
-    public void makeMove(Game game){
+    public void makeMove(Game game) throws InvalidMoveException {
         game.makeMove();
+    }
 
-
+    public void handleGameEnd(Game game) {
+        if(game.getGameState().equals(GameState.ENDED)){
+            printBoard(game);
+            System.out.println(getWinner(game).getName() + " has WON the game");
+        }
+        else if(game.getGameState().equals(GameState.DRAW)){
+            System.out.println("Game DRAW");
+        }
     }
 
     public GameState getGameState(Game game){
