@@ -17,7 +17,7 @@ public class Main {
         int dimension = 3;
         List<Player> players = new ArrayList<>();
         players.add(new Player("Mayank", new Symbol('X'), PlayerType.HUMAN));
-        players.add(new Player("DS",new Symbol('O'), PlayerType.HUMAN));
+        players.add(new Player("Scaler",new Symbol('O'), PlayerType.HUMAN));
 
         List<WinningStrategy> winningStrategies = List.of(
                 new RowWinningStrategies(),

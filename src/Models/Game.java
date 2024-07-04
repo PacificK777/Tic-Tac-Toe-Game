@@ -47,7 +47,7 @@ public class Game {
         System.out.println("It's "+currentPlayer.getName()+"'s move");
 
         //Ask the user where they want to make the move
-        Move move = currentPlayer.makeMove();
+        Move move = currentPlayer.makeMove(board);
 
         //Before making the move, validate if the cell is empty or not
         if(! validateMove(move)){

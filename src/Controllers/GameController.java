@@ -31,7 +31,7 @@ public class GameController {
             System.out.println(getWinner(game).getName() + " has WON the game");
         }
         else if(game.getGameState().equals(GameState.DRAW)){
-            System.out.println("Game DRAW");
+            System.out.println("Game DRAW, no Winner");
         }
     }
 
